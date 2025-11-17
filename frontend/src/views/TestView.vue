@@ -2,8 +2,7 @@
       <!-- Tiny sparkline chart -->
       <apexchart 
         type="line"
-        height="120"
-        width="200"
+        height="300"
         :options="chartOptions"
         :series="series"
       />
@@ -18,43 +17,72 @@ export default {
   setup() {
     const series = ref([
       {
-        name: "High - 2013",
-        data: [28, 29, 33, 36, 32, 32, 33]
+        name: "Preventive Maintenance",
+        data: [80, 50, 58, 40, 60, 56, 56, 60, 40, 42, 40, 16]
       },
       {
-        name: "Low - 2013",
-        data: [12, 11, 14, 18, 17, 13, 13]
+        name: "Corrective Maintenance",
+        data: [50, 36, 42, 20, 42, 30, 70, 24, 54, 58, 50, 70]
+      },
+      {
+        name: "Work Request",
+        data: [30, 60, 30, 60, 70, 60, 40, 20, 30, 70, 30, 50]
       }
     ]);
 
     const chartOptions = ref({
       chart: {
-        sparkline: { enabled: true },
+        height: 350,
+        type: 'line',
+        dropShadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.5
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
       },
-      colors: ['#9b5cf6'],
+      colors: ['#64d3aa', '#44c8f6', '#f6b321'],
+      dataLabels: {
+        enabled: false,
+      },
       stroke: {
-        width: 2,
         curve: 'straight'
       },
-      dropShadow: {
-        enabled: true,
-        color: '#000',
-        top: 18,
-        left: 7,
-        blur: 10,
-        opacity: 0.5
+      grid: {
+        borderColor: '#e7e7e7',
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        },
       },
-      // fill: {
-      //   type: "gradient",
-      //   gradient: {
-      //     shadeIntensity: 0.7,
-      //     opacityFrom: 0.6,
-      //     opacityTo: 0.1,
-      //   }
-      // },
-      tooltip: { enabled: true }
+      markers: {
+        size: 1
+      },
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      },
+      yaxis: {
+        yaxis: {
+          min: 0,
+          max: 100,
+        }
+      },
+      legend: {
+        position: 'bottom',
+        horizontalAlign: 'left',
+        floating: true,
+        offsetY: 25,
+        offsetX: 5
+      },
     });
-
     return { series, chartOptions };
   }
 };
