@@ -1,89 +1,37 @@
 <template>
-      <!-- Tiny sparkline chart -->
-      <apexchart 
-        type="line"
-        height="300"
-        :options="chartOptions"
-        :series="series"
-      />
+  <!-- gradient shadow wrapper -->
+  <div class="relative">
+  <div class="flex gap-5 border-2 border-[#ffcba4] rounded-xl p-5 bg-white relative z-10">
+    <div class="h-14 w-14 mt-1">
+      <img src="../assets/icons/default-user-image.jpg" class="rounded-full" />
+    </div>
+    <div>
+      <h2 class="font-semibold">Resident Name</h2>
+      <p class="text-gray-500 font-medium text-sm">Room Number</p>
+      <Rating />
+    </div>
+  </div>
+
+  <!-- gradient shadow -->
+  <div class="absolute inset-0 rounded-xl blur-xl opacity-70 
+              bg-gradient-to-br from-[#fba800] via-[#fd2b94] to-[#fba800]">
+  </div>
+</div>
+
 </template>
 
+
 <script>
-import { ref } from 'vue';
+import Rating from '@/components/Rating.vue';
 
 export default {
-  name: "AreaCard",
-
-  setup() {
-    const series = ref([
-      {
-        name: "Preventive Maintenance",
-        data: [80, 50, 58, 40, 60, 56, 56, 60, 40, 42, 40, 16]
-      },
-      {
-        name: "Corrective Maintenance",
-        data: [50, 36, 42, 20, 42, 30, 70, 24, 54, 58, 50, 70]
-      },
-      {
-        name: "Work Request",
-        data: [30, 60, 30, 60, 70, 60, 40, 20, 30, 70, 30, 50]
-      }
-    ]);
-
-    const chartOptions = ref({
-      chart: {
-        height: 350,
-        type: 'line',
-        dropShadow: {
-          enabled: true,
-          color: '#000',
-          top: 18,
-          left: 7,
-          blur: 10,
-          opacity: 0.5
-        },
-        zoom: {
-          enabled: false
-        },
-        toolbar: {
-          show: false
-        }
-      },
-      colors: ['#64d3aa', '#44c8f6', '#f6b321'],
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: 'straight'
-      },
-      grid: {
-        borderColor: '#e7e7e7',
-        row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5
-        },
-      },
-      markers: {
-        size: 1
-      },
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      },
-      yaxis: {
-        yaxis: {
-          min: 0,
-          max: 100,
-        }
-      },
-      legend: {
-        position: 'bottom',
-        horizontalAlign: 'left',
-        floating: true,
-        offsetY: 25,
-        offsetX: 5
-      },
-    });
-    return { series, chartOptions };
-  }
+  name: "TestimonialsCard",
+  components: { Rating },
 };
 </script>
+
+<style>
+.gradient-shadow {
+  box-shadow: 0px 5px 25px 5px #fba80080,
+              0px 10px 45px 10px #fd2b9480;
+}</style>
