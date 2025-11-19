@@ -43,9 +43,9 @@
       <div class="flex flex-col gap-4  w-1/2">
         <PercentageCard v-for="(data, index) in maintenanceData" :key="index" :percentageCardData="data" />
       </div>
-      <div class="flex flex-col gap-4 bg-[#f5f8ff] w-1/2">
+      <!-- <div class="flex flex-col gap-4 bg-[#f5f8ff] w-1/2">
         <MultiSeriesChart />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

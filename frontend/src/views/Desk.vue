@@ -33,7 +33,7 @@
   </div>
   <!-- Tabs Section -->
   <div class="grid grid-cols-12 gap-5 mt-5">
-    <div class="bg-white col-span-3 p-5 max-h-[60%]">
+    <div class="bg-white col-span-3 p-5 h-[400px]">
         <h1 class="text-gray-400 font-medium">Departments</h1>
         <div>
             <!-- Management Button -->

@@ -13,9 +13,36 @@
   </div> -->
   
   <!-- Charts -->
-  <div class="bg-white h-[83.5vh]">
+  <div class="bg-white h-[83.5vh] overflow-auto">
     <!-- Feedback -->
+    <div>
+      <h1 class="text-3xl font-semibold text-center mt-5">Feedback - <span class="bg-gradient-to-t from-[#fd2b94] via-[#fba800] to-[#fd2b94] bg-clip-text text-transparent">Weekwise</span></h1>
+      <div class="flex m-5 gap-3">
+        <div
+          @click="activeFeedbackType = 'Service'"
+          class="w-40 cursor-pointer text-center border py-1 rounded-lg font-medium"
+          :class="{'border-2 border-[#fba800] bg-[#fefdec]': activeFeedbackType === 'Service' }"
+        >
+          Service
+        </div>
+        <div
+          @click="activeFeedbackType = 'Quality'"
+          class="w-40 cursor-pointer text-center border py-1 rounded-lg font-medium"
+          :class="{'border-2 border-[#fba800] bg-[#fefdec]': activeFeedbackType === 'Quality' }"
+        >
+          Quality
+        </div>
+      </div>
+    </div>
     
+    <div class="flex gap-5 justify-center">
+      <div v-if="activeFeedbackType=='Service'" class="flex flex-col gap-4 bg-[#f5f8ff] w-full">
+        <MultiLineChart :chartData="serviceFeedbackData"/>
+      </div>
+      <div v-if="activeFeedbackType=='Quality'" class="flex flex-col gap-4 bg-[#f5f8ff] w-full">
+        <MultiLineChart :chartData="qualityFeedBackData"/>
+      </div>
+    </div>
 
     <!-- Testimonials -->
     <div class="relative">
@@ -37,21 +64,58 @@
         :testimonialsCardData="data"
       />
     </div>
+
+    <!-- Meals -->
+    <div>
+      <h1 class="text-3xl font-semibold text-center mt-5">Feedback - <span class="bg-gradient-to-t from-[#fd2b94] via-[#fba800] to-[#fd2b94] bg-clip-text text-transparent">Weekwise</span></h1>
+      <div class="flex m-5 gap-3">
+        <div
+          @click="activeFeedbackType = 'Service'"
+          class="w-40 cursor-pointer text-center border py-1 rounded-lg font-medium"
+          :class="{'border-2 border-[#fba800] bg-[#fefdec]': activeFeedbackType === 'Service' }"
+        >
+          Service
+        </div>
+        <div
+          @click="activeFeedbackType = 'Quality'"
+          class="w-40 cursor-pointer text-center border py-1 rounded-lg font-medium"
+          :class="{'border-2 border-[#fba800] bg-[#fefdec]': activeFeedbackType === 'Quality' }"
+        >
+          Quality
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex gap-5 justify-center">
+      <div v-if="activeFeedbackType=='Service'" class="flex flex-col gap-4 bg-[#f5f8ff] w-full">
+        <MultiLineChart :chartData="serviceFeedbackData"/>
+      </div>
+      <div v-if="activeFeedbackType=='Quality'" class="flex flex-col gap-4 bg-[#f5f8ff] w-full">
+        <MultiLineChart :chartData="qualityFeedBackData"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import TestimonialsCard from '@/components/TestimonialsCard.vue';
+import MultiLineChart from '@/components/chart/MultiLineChart.vue';
+
 import testimonialsData from '@/data/maintenance/testimonials.js';
+import serviceFeedbackData from '@/data/maintenance/service_feedback';
+import qualityFeedBackData from '@/data/maintenance/quality_feedback';
 
 export default {
   data() {
     return {
       activeTab: 'Maintenance',
-      testimonialsData
+      activeFeedbackType: 'Service',
+      testimonialsData,
+      serviceFeedbackData,
+      qualityFeedBackData
     };
   },
-  components: { TestimonialsCard }
+  components: { TestimonialsCard, MultiLineChart }
 };
 </script>
 
