@@ -1,8 +1,7 @@
 <template>
   <apexchart
-    class="bg-white"
-    type="bar"
-    height="500"
+    type="line"
+    height="420"
     :options="chartOptions"
     :series="series"
   />
@@ -10,53 +9,80 @@
 
 <script>
 import { ref } from "vue";
+import VueApexCharts from "vue3-apexcharts";
+import pmCmWrData from "@/data/maintenance/monthwise_overall_pmi_cm_wr.js";
 
 export default {
-  name: "AreaCard",
-  props: {
-    chartData: {
-      type: Array,
-      required: true
-    }
-  },
+  components: { apexchart: VueApexCharts },
 
-  setup(props) {
+  setup() {
+    const categories = pmCmWrData.map(item => item.month);
 
-    // ✅ FIXED — DO NOT wrap in another array
-    const series = ref(props.chartData);
+    const series = ref([
+      {
+        name: "PM",
+        type: "line",
+        data: pmCmWrData.map(item => item.PM)
+      },
+      {
+        name: "CM",
+        type: "line",
+        data: pmCmWrData.map(item => item.CM)
+      },
+      {
+        name: "WR",
+        type: "line",
+        data: pmCmWrData.map(item => item.WR)
+      }
+    ]);
 
     const chartOptions = ref({
       chart: {
-        type: "bar",
-        background: "transparent",
-        toolbar: { show: false }
+        type: "line",
+        zoom: { enabled: false },
+        toolbar: { show: true }
       },
 
-      plotOptions: {
-        bar: {
-          borderRadius: 4,
-          columnWidth: "50%"
-        }
+      colors: ["#008FFB", "#FEB019", "#00E396"],
+
+      stroke: {
+        curve: "smooth",
+        width: 3
+      },
+
+      markers: {
+        size: 5
       },
 
       xaxis: {
-        categories: ["Week 1", "Week 2", "Week 3", "Week 4"]
+        categories,
+        title: { text: "Month" }
       },
 
-      yaxis: {
-        min: 0,
-        max: 5
+      yaxis: [
+        {
+          title: { text: "PM" },
+          labels: { style: { colors: "#008FFB" }},
+        },
+        {
+          opposite: true,
+          title: { text: "CM" },
+          labels: { style: { colors: "#FEB019" }},
+        },
+        {
+          opposite: true,
+          title: { text: "WR" },
+          labels: { style: { colors: "#00E396" }},
+        }
+      ],
+
+      tooltip: {
+        shared: true,
+        intersect: false,
       },
 
       legend: {
         position: "bottom"
-      },
-
-      dataLabels: { enabled: false },
-
-      fill: {
-        type: "solid",
-        opacity: 1
       }
     });
 

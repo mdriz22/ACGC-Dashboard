@@ -1,7 +1,9 @@
-.DS_Store
 *.pyc
-*.egg-info
-*.swp
-tags
-node_modules
-__pycache__
+__pycache__/
+node_modules/
+.env
+*.log
+coverage/
+dist/
+build/
+
