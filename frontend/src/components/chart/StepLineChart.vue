@@ -13,11 +13,17 @@ import dataFile from "@/data/maintenance/sewage_water_consumption.js";
 
 export default {
   name: "SteplineChart",
-  setup() {
+   props: {
+    chartData: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
     const series = ref([
       {
         name: "Sewage Water Consumption (Litres)",
-        data: dataFile.capacities
+        data: props.chartData[0].capacities
       }
     ]);
 
@@ -33,7 +39,7 @@ export default {
 
       markers: { size: 0 },
 
-      xaxis: { categories: dataFile.dates },
+      xaxis: { categories: props.chartData[0].dates },
 
       grid: { borderColor: "#ddd" },
 

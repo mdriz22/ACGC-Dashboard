@@ -37,19 +37,26 @@
                        
             </div>
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="manpowerSaudiNationalDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <SemiCircleGauge :total="154" :saudi="10"  />
+                    <SemiCircleGauge
+                      :total="manpowerSaudiNationalDataFiltered[0].total_sum"
+                      :saudi="manpowerSaudiNationalDataFiltered[0].nationals_sum"
+                    />
                 </div>
                 
             </div>
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="manpowerSaudiNationalDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <RadialGauge :chartData="manpowerSaudiNationalData"  />
+                    <RadialGauge :chartData="manpowerSaudiNationalDataFiltered"  />
                 </div>
                 
             </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
+
 
             
         </div>
@@ -71,12 +78,18 @@
                 
             </div>
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="kpiPerformanceMeasureFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <RadarChart :chartData="kpiPerformanceMeasure" title="" />
+                    <RadarChart :chartData="kpiPerformanceMeasureFiltered"  />
                 </div>
                 
             </div>
+
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
+
+
         </div>
 
 
@@ -98,12 +111,17 @@
                 
             </div>
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="manpowerSummaryDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <BulletChart :chartData="manpowerSummaryData"  />
+                    <BulletChart :chartData="manpowerSummaryDataFiltered"  />
                 </div>
                 
             </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
+
+
         </div>
 
 
@@ -117,32 +135,36 @@
                 
             </div>
 
-             <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+             <div v-if="manpowerDetailsDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: manpowerDetailsData.totals.indicative,
+                        count: manpowerDetailsDataFiltered[0].totals.indicative,
                         title: 'Indicative Total',
-                        data: manpowerDetailsData.series[0].data
+                        data: manpowerDetailsDataFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: manpowerDetailsData.totals.actual,
+                    count: manpowerDetailsDataFiltered[0].totals.actual,
                     title: 'Actual Total',
-                    data: manpowerDetailsData.series[1].data
+                    data: manpowerDetailsDataFiltered[0].series[1].data
                 }"
                 />    
 
             </div>
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="manpowerDetailsDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <LineLableChart :chartData="manpowerDetailsData" title="" />
+                    <LineLableChart :chartData="manpowerDetailsDataFiltered"  />
                 </div>
                 
             </div>
+
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
         </div>    
 
 
@@ -161,6 +183,9 @@
 
 <script>
 
+  import { computed } from 'vue';
+  import { useFilterStore } from '@/stores/filterStore';
+
 
 import SemiCircleGauge from '@/components/chart/SemiCircleGauge.vue';
 import RadialGauge from '@/components/chart/RadialGauge.vue';
@@ -178,6 +203,30 @@ import manpowerDetailsData from '@/data/maintenance/manpower_details.js';
 
 
 export default {
+
+  setup(){
+
+    const filterStore = useFilterStore();
+
+     const manpowerSaudiNationalDataFiltered = computed(() =>
+            filterStore.applyFilters(manpowerSaudiNationalData)
+            );
+
+     const kpiPerformanceMeasureFiltered = computed(() =>
+            filterStore.applyFilters(kpiPerformanceMeasure)
+            );
+
+     const manpowerSummaryDataFiltered = computed(() =>
+            filterStore.applyFilters(manpowerSummaryData)
+            );
+
+     const manpowerDetailsDataFiltered = computed(() =>
+            filterStore.applyFilters(manpowerDetailsData)
+            );
+
+   return {manpowerSaudiNationalDataFiltered,kpiPerformanceMeasureFiltered,manpowerSummaryDataFiltered,manpowerDetailsDataFiltered}
+
+  },
   data() {
     return {
       activeTab: 'Saudization',

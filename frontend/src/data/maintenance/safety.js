@@ -1,6 +1,16 @@
-export default {
+export default [
 
-  series: [ 0,  1,  2, 0,  3,  5,  7,  4,  6,  2 ],
+  {
+
+    
+     meta: {
+    year: 2025,
+    month: "November",
+    site: 'PS10'
+  }, 
+
+    records:[{
+  series: [ 0,  0,  0, 0,  0,  0,  0,  4,  0,  0 ],
 
   labels: [
     "Fatal",
@@ -14,4 +24,9 @@ export default {
     "Lost Workdays",
     "Restricted Workdays"
   ]
-};
+  }]
+
+},
+ //PS06 no data
+ //PS03 no data
+]

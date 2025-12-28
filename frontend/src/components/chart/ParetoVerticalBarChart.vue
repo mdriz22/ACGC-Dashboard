@@ -1,96 +1,3 @@
-<!-- <template>
-  <apexchart
-    type="line"
-    height="450"
-    :options="chartOptions"
-    :series="series"
-  />
-</template>
-
-<script>
-import { ref } from "vue";
-import VueApexCharts from "vue3-apexcharts";
-import cmData from "@/data/maintenance/cm_overall_scheduled_accomplished.js";
-
-export default {
-  name: "CMOverallChart",
-  components: { apexchart: VueApexCharts },
-
-  setup() {
-    const series = ref([
-      {
-        name: "Scheduled",
-        type: "column",
-        data: cmData.scheduled
-      },
-      {
-        name: "Accomplished",
-        type: "column",
-        data: cmData.accomplished
-      },
-      {
-        name: "% Completed",
-        type: "line",
-        data: cmData.percentage
-      }
-    ]);
-
-    const chartOptions = ref({
-      chart: { stacked: false },
-      title: {
-        text: "CM Overall Scheduled vs Accomplished",
-        align: "center",
-        style: { fontSize: "22px", fontWeight: "bold" }
-      },
-
-      plotOptions: {
-        bar: {
-          columnWidth: "45%",
-          borderRadius: 4
-        }
-      },
-
-      stroke: { width: [0, 0, 3], curve: "smooth" },
-
-      xaxis: {
-        categories: cmData.subjects
-      },
-
-      yaxis: [
-        // LEFT AXIS → Scheduled & Accomplished
-        {
-          title: { text: "Count" },
-          min: 0
-        },
-
-        // RIGHT AXIS → Percentage ONLY
-        {
-          opposite: true,
-          min: 0,
-          max: 100,
-          title: { text: "Percentage" }
-        }
-      ],
-
-      dataLabels: {
-        enabled: true,
-        formatter: (val, opts) =>
-          opts.seriesIndex === 2 ? val + "%" : val
-      },
-
-      colors: ["#3498db", "#2ecc71", "#e74c3c"],
-
-      legend: {
-        position: "bottom"
-      }
-    });
-
-    return { series, chartOptions };
-  }
-};
-</script> -->
-
-
 <template>
   <apexchart
     height="460"
@@ -105,21 +12,28 @@ import { ref } from "vue";
 import VueApexCharts from "vue3-apexcharts";
 import cmData from "@/data/maintenance/cm_overall_scheduled_accomplished.js";
 
+ const props = defineProps({
+  chartData: {
+    type: Object, 
+    required: true
+  }
+});
+
 const series = ref([
   {
     name: "Scheduled",
     type: "column",
-    data: cmData.scheduled
+    data: props.chartData[0].scheduled
   },
   {
     name: "Accomplished",
     type: "area",
-    data: cmData.accomplished
+    data: props.chartData[0].accomplished
   },
   {
     name: "% Completed",
     type: "line",
-    data: cmData.percentage
+    data: props.chartData[0].percentage
   }
 ]);
 
@@ -186,4 +100,5 @@ const chartOptions = ref({
   legend: { position: "bottom" }
 });
 </script>
+
 

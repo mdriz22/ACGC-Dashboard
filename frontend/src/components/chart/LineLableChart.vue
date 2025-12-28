@@ -15,9 +15,15 @@ import staffingData from "@/data/maintenance/manpower_details.js";
 export default {
   name: "StaffingLineChart",
   components: { apexchart: VueApexCharts },
+   props: {
+    chartData: {
+      type: Array,
+      required: true
+    }
+  },
 
-  setup() {
-    const series = ref(staffingData.series);
+  setup(props) {
+    const series = ref(props.chartData[0].series);
 
     const chartOptions = ref({
       chart: {
@@ -56,8 +62,8 @@ export default {
       },
 
       xaxis: {
-        categories: staffingData.categories,
-        tickAmount: staffingData.categories.length,
+        categories: props.chartData[0].categories,
+        tickAmount: props.chartData[0].categories.length,
         title: {
           text: "Function"
         },

@@ -15,19 +15,36 @@
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
+import { computed } from 'vue';
 import { ref } from "vue";
 
 export default {
   name: "ManpowerRadial",
   components: { apexchart: VueApexCharts },
+   props: {
+    total: {
+      type: Number,
+      required: true
+    },
+    saudi: {
+      type: Number,
+      required: true
+    }
+  },
 
-  setup() {
-    const total = 154;
-    const saudi = 10;
-    const percentage = ((saudi / total) * 100).toFixed(2); 
-
+  setup(props) {
+    // const total = props.total_sum;
+    // const saudi = props.nationals_sum;
+    // const percentage = ((saudi / total) * 100).toFixed(2);
+    // const series = ref([Number(percentage)]);
+// const percentage = computed(() =>
+//     props.total
+//         ? ((props.saudi / props.total) * 100).toFixed(2)
+//         : 0
+//     );
+    const percentage = ((props.saudi / props.total) * 100).toFixed(2);
+    // const series = computed(() => [Number(percentage.value)]);
     const series = ref([Number(percentage)]);
-
     const chartOptions = ref({
       chart: {
         type: "radialBar",
@@ -77,7 +94,7 @@ export default {
       labels: ["Saudization %"]
     });
 
-    return { series, chartOptions, total, saudi };
+    return { series, chartOptions };
   }
 };
 </script>

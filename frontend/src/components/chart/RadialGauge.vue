@@ -12,19 +12,32 @@ import { ref } from "vue";
 import VueApexCharts from "vue3-apexcharts";
 import saudiData from "@/data/maintenance/manpower_saudi_national.js";
 
+ 
+
 export default {
   name: "SaudiNationalizationChart",
   components: { apexchart: VueApexCharts },
 
-  setup() {
+  
+  props: {
+    chartData: {
+      type: Array,
+      required: true
+    }
+  },
+
+
+  setup(props) {
+
+  
     const series = ref([
       {
         name: "Total",
-        data: saudiData.total
+        data: props.chartData[0].total
       },
       {
         name: "Saudi Nationals",
-        data: saudiData.nationals
+        data: props.chartData[0].nationals
       }
     ]);
 
@@ -48,7 +61,7 @@ export default {
       dataLabels: { enabled: true },
 
       xaxis: {
-        categories: saudiData.functions
+        categories: props.chartData[0].functions
       },
 
       yaxis: {

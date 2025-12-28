@@ -23,7 +23,7 @@ export default {
 
   setup(props) {
     
-    const series = ref(props.chartData.series);
+    const series = ref(props.chartData[0].series);
 
     const chartOptions = ref({
       chart: {
@@ -61,7 +61,7 @@ export default {
       },
 
       xaxis: {
-        categories: props.chartData.categories,  
+        categories: props.chartData[0].categories,  
         title: {
           text: "Day of Month"
         }

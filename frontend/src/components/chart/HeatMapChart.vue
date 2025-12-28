@@ -16,23 +16,29 @@ import scoresData from "@/data/maintenance/safety_and_environment.js";
 export default {
   name: "SafetyHeatMap",
   components: { apexchart: VueApexCharts },
+   props: {
+    chartData: {
+      type: Array,
+      required: true
+    }
+  },
 
-  setup() {
+  setup(props) {
     const series = ref(
-      scoresData.categories.map((cat, i) => ({
+      props.chartData[0].categories.map((cat, i) => ({
         name: cat,
         data: [
           {
             x: "Applicable",
-            y: scoresData.applicable[i] ?? 0
+            y: props.chartData[0].applicable[i] ?? 0
           },
           {
             x: "Actual",
-            y: scoresData.actual[i] ?? 0
+            y: props.chartData[0].actual[i] ?? 0
           },
           {
             x: "Satisfactory Rating",
-            y: Number(scoresData.percentage[i]) || 0
+            y: Number(props.chartData[0].percentage[i]) || 0
           }
         ]
       })).reverse()

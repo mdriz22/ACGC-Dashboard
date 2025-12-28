@@ -13,22 +13,29 @@ import { ref } from "vue";
 import VueApexCharts from "vue3-apexcharts";
 import wrData from "@/data/maintenance/wr_overall_schedule.js";
 
+ const props = defineProps({
+  chartData: {
+    type: Object, 
+    required: true
+  }
+});
 
-const percentageLabels = wrData.percentage.map(p => p + "%");
+
+const percentageLabels = props.chartData[0].percentage.map(p => p + "%");
 
 const series = ref([
   {
     name: "Scheduled",
-    data: wrData.scheduled.map(v => -v)
+    data: props.chartData[0].scheduled.map(v => -v)
   },
   {
     name: "Accomplished",
-    data: wrData.accomplished
+    data: props.chartData[0].accomplished
   },
 
   {
     name: "% Completed",
-    data: wrData.scheduled.map(v => null) 
+    data: props.chartData[0].scheduled.map(v => null) 
   }
   
 ]);
@@ -54,7 +61,7 @@ const chartOptions = ref({
   },
 
   xaxis: {
-    categories: wrData.subjects,
+    categories: props.chartData[0].subjects,
     labels: {
       formatter: (value) => Math.abs(value)
     }
@@ -89,11 +96,11 @@ const chartOptions = ref({
 
 
 annotations: {
-  yaxis: wrData.subjects.map((subject, index) => ({
+  yaxis: props.chartData[0].subjects.map((subject, index) => ({
     y: subject,  
     borderColor: 'transparent',
     label: {
-      text: wrData.percentage[index] + "%",
+      text: props.chartData[0].percentage[index] + "%",
       style: {
         fontSize: '12px',
         fontWeight: 'bold',

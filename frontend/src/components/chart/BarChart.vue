@@ -1,11 +1,15 @@
 <template>
   <apexchart
+    v-if="series.length"
     class="bg-white"
     type="bar"
     height="500"
     :options="chartOptions"
     :series="series"
   />
+   <div v-else class="text-center mt-5 text-gray-500">
+      No data available for selected filters.
+    </div>
 </template>
 
 <script>

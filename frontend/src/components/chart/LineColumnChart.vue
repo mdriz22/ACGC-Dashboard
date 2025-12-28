@@ -1,10 +1,14 @@
 <template>
   <apexchart
+    v-if="series.length"
     type="line"
     height="500"
     :options="chartOptions"
     :series="series"
   />
+  <div v-else class="text-center mt-5 text-gray-500">
+      No data available for selected filters.
+    </div>
 </template>
 
 <script>
@@ -44,6 +48,8 @@ export default {
         data: props.chartData.occupancyPercent
       }
     ]);
+
+    
 
     const chartOptions = ref({
       chart: {

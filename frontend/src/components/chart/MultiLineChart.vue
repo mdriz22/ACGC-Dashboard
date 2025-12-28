@@ -1,10 +1,14 @@
 <template>
   <apexchart
+   v-if="series.length"
     type="line"
     height="420"
     :options="chartOptions"
     :series="series"
   />
+  <div v-else class="text-center mt-5 text-gray-500">
+      No data available for selected filters.
+    </div>
 </template>
 
 <script>
@@ -13,28 +17,61 @@ import VueApexCharts from "vue3-apexcharts";
 import pmCmWrData from "@/data/maintenance/monthwise_overall_pmi_cm_wr.js";
 
 export default {
+  props: {
+    chartData: {
+      type: Array,
+      required: true
+    }
+  },
   components: { apexchart: VueApexCharts },
 
-  setup() {
-    const categories = pmCmWrData.map(item => item.month);
+  setup(props) {
 
-    const series = ref([
+    console.log(ref(props.chartData))
+    
+     const series = ref([
       {
         name: "PM",
         type: "line",
-        data: pmCmWrData.map(item => item.PM)
+        data: props.chartData.map(item => item.PM),
       },
       {
         name: "CM",
         type: "line",
-        data: pmCmWrData.map(item => item.CM)
+        data: props.chartData.map(item => item.CM),
       },
       {
         name: "WR",
         type: "line",
-        data: pmCmWrData.map(item => item.WR)
-      }
+        data: props.chartData.map(item => item.WR),
+      },
     ]);
+
+    const categories = ref(props.chartData.map(item => item.month));
+
+
+
+    
+
+   
+
+    // const series = ref([
+    //   {
+    //     name: "PM",
+    //     type: "line",
+    //     data: pmCmWrData.map(item => item.PM)
+    //   },
+    //   {
+    //     name: "CM",
+    //     type: "line",
+    //     data: pmCmWrData.map(item => item.CM)
+    //   },
+    //   {
+    //     name: "WR",
+    //     type: "line",
+    //     data: pmCmWrData.map(item => item.WR)
+    //   }
+    // ]);
 
     const chartOptions = ref({
       chart: {

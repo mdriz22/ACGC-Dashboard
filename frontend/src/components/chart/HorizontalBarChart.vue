@@ -13,20 +13,27 @@ import dataFile from "@/data/maintenance/safety_training_on.js";
 
 export default {
   name: "TrainingScoreChart",
-  setup() {
+   props: {
+    chartData: {
+      type: Object,
+      required: true
+    }
+  },
+
+  setup(props) {
     const series = ref([
       {
         name: "Applicable",
-        data: dataFile.applicable,
+        data: props.chartData[0].applicable,
         dataLabels: { enabled: false } 
       },
       {
         name: "Actual",
-        data: dataFile.actual,
+        data: props.chartData[0].actual,
         dataLabels: {
           enabled: true,
           formatter: function (val, opts) {
-            const pct = dataFile.percent[opts.dataPointIndex];
+            const pct = props.chartData[0].percent[opts.dataPointIndex];
             return pct !== null && pct !== undefined ? `${val} (${pct}%)` : val;
           },
           style: { colors: ["#000"] },
@@ -49,7 +56,7 @@ export default {
         }
       },
       xaxis: {
-        categories: dataFile.topics
+        categories: props.chartData[0].topics
       },
       legend: {
         position: "bottom",
@@ -62,7 +69,7 @@ export default {
         y: {
           formatter: (val, opts) => {
             if (opts.seriesIndex === 1) {
-              const pct = dataFile.percent[opts.dataPointIndex];
+              const pct = props.chartData[0].percent[opts.dataPointIndex];
               return pct !== null ? `${val} (${pct}%)` : val;
             }
             return val;

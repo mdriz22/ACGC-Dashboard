@@ -30,33 +30,37 @@
                 
     </div>
 
-      <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+      <div v-if="safetyEnvironmentDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: safetyEnvironmentData.totals.applicable,
+                        count: safetyEnvironmentDataFiltered[0].totals.applicable,
                         title: 'Applicable',
-                        data: safetyEnvironmentData.applicable
+                        data: safetyEnvironmentDataFiltered[0].applicable
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: safetyEnvironmentData.totals.actual,
+                    count: safetyEnvironmentDataFiltered[0].totals.actual,
                     title: 'Actual',
-                    data: safetyEnvironmentData.actual
+                    data: safetyEnvironmentDataFiltered[0].actual
                 }"
                 /> 
 
                 <CountCard 
                 :countCardData="{
-                    count: safetyEnvironmentData.totals.percentage,
+                    count: safetyEnvironmentDataFiltered[0].totals.percentage,
                     title: 'Overall Percentage',
-                    data: safetyEnvironmentData.percentage
+                    data: safetyEnvironmentDataFiltered[0].percentage
                 }"
                 />    
 
             </div>
+
+             <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
 
 
    </div>
@@ -77,8 +81,12 @@
             </div>
 
             <div class="flex gap-5 justify-center">
-                <div  class="flex flex-col gap-4  w-full">
-                    <PolarAreaChart :chartData="safetyData" title="" />
+                <div v-if="safetyDataFiltered.length"  class="flex flex-col gap-4  w-full">
+                    <PolarAreaChart :chartData="safetyDataFiltered"  />
+                </div>
+
+                <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
                 </div>
                 
             </div>
@@ -97,40 +105,45 @@
                 
             </div>
 
-            <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+            <div v-if="safetyEnvironmentDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: safetyEnvironmentData.totals.applicable,
+                        count: safetyEnvironmentDataFiltered[0].totals.applicable,
                         title: 'Applicable',
-                        data: safetyEnvironmentData.applicable
+                        data: safetyEnvironmentDataFiltered[0].applicable
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: safetyEnvironmentData.totals.actual,
+                    count: safetyEnvironmentDataFiltered[0].totals.actual,
                     title: 'Actual',
-                    data: safetyEnvironmentData.actual
+                    data: safetyEnvironmentDataFiltered[0].actual
                 }"
                 /> 
 
                 <CountCard 
                 :countCardData="{
-                    count: safetyEnvironmentData.totals.percentage,
+                    count: safetyEnvironmentDataFiltered[0].totals.percentage,
                     title: 'Overall Percentage',
-                    data: safetyEnvironmentData.percentage
+                    data: safetyEnvironmentDataFiltered[0].percentage
                 }"
                 />    
 
             </div>
 
-            <div class="ml-[150px]">
-                <div  class=" ">
-                    <HeatMapChart :chartData="safetyEnvironmentData" title="" />
+            <div v-if="safetyEnvironmentDataFiltered.length" class="ml-[150px]">
+                <div   class=" ">
+                    <HeatMapChart :chartData="safetyEnvironmentDataFiltered" title="" />
                 </div>
 
-            </div>    
+                
+
+            </div> 
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>   
                 
             
         </div>
@@ -155,9 +168,13 @@
             </div>
 
             <div class="">
-                <div  class=" ">
-                    <HorizontalBarChart :chartData="safetyTrainingOnData" title="" />
+                <div v-if="safetyTrainingOnDataFiltered.length"  class=" ">
+                    <HorizontalBarChart :chartData="safetyTrainingOnDataFiltered" />
                 </div>
+
+                <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div> 
 
             </div>    
                 
@@ -175,6 +192,8 @@
 
 <script>
 
+import { computed } from 'vue';
+import { useFilterStore } from '@/stores/filterStore';
 
 import HorizontalBarChart from '@/components/chart/HorizontalBarChart.vue';
 import PolarAreaChart from '@/components/chart/PolarAreaChart.vue';
@@ -189,6 +208,28 @@ import safetyEnvironmentData from '@/data/maintenance/safety_and_environment.js'
 
 
 export default {
+
+     setup(){
+
+    const filterStore = useFilterStore();
+
+     const safetyEnvironmentDataFiltered = computed(() =>
+            filterStore.applyFilters(safetyEnvironmentData)
+            );
+
+     const safetyDataFiltered = computed(() =>
+            filterStore.applyFilters(safetyData)
+            );
+
+     const safetyTrainingOnDataFiltered = computed(() =>
+            filterStore.applyFilters(safetyTrainingOnData)
+            );
+
+     return {
+               safetyEnvironmentDataFiltered, safetyDataFiltered ,safetyTrainingOnDataFiltered
+     } 
+
+     },
   data() {
     return {
       activeTab: 'Summary',

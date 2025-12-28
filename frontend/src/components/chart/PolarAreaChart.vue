@@ -22,7 +22,7 @@ export default {
   },
 
   setup(props) {
-    const series = ref(props.chartData.series);
+    const series = ref(props.chartData[0].series);
 
     const chartOptions = ref({
       chart: {
@@ -30,7 +30,7 @@ export default {
         toolbar: { show: true },
       },
 
-      labels: props.chartData.labels,
+      labels: props.chartData[0].labels,
 
       stroke: {
         colors: ["#fff"]

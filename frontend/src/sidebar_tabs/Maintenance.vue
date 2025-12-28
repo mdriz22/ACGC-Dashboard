@@ -38,12 +38,15 @@
             
 
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="OverallMonthAllFiltered.length"  class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <MultiLineChart :chartData="OverallMonthAll"  />
+                    
+                    <MultiLineChart :chartData="OverallMonthAllFiltered"  />
                 </div>
-                
             </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                    </div>
         </div>
 
 
@@ -55,44 +58,53 @@
                 
             </div>
 
-            <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+            <div v-if="overallSchvsAccDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
+                    v-if="overallSchvsAccDataFiltered.length"
                     :countCardData="{
-                        count: overallSchvsAccData.completion_rate,
+                        count: overallSchvsAccDataFiltered[0].completion_rate,
                         title: 'PM Completion Rate',
-                        data: overallSchvsAccData.per
+                        data: overallSchvsAccDataFiltered[0].series[1].data
                     }"
                     />   
 
-                <CountCard 
+                <CountCard
+                    v-if="overallSchvsAccDataFiltered.length"
                     :countCardData="{
-                        count: overallSchvsAccData.totals.Planned,
+                        count: overallSchvsAccDataFiltered[0].totals.Planned,
                         title: 'PM Planned Total',
-                        data: overallSchvsAccData.per
+                        data: overallSchvsAccDataFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
+                    v-if="overallSchvsAccDataFiltered.length"
                     :countCardData="{
-                        count: overallSchvsAccData.totals.Completed,
+                        count: overallSchvsAccDataFiltered[0].totals.Completed,
                         title: 'PM Completed Total',
-                        data: overallSchvsAccData.per
+                        data: overallSchvsAccDataFiltered[0].series[1].data
                     }"
                     />     
 
             </div>
+            
+             
 
 
            
 
-                <div  class=" bg-[#f5f8ff] w-full">
-                    <StackedBarChart
-                    :chartData="overallSchvsAccData.series"
-                    :categories="overallSchvsAccData.categories"
-                    title=""
-                    />
-                </div>
+                <StackedBarChart
+                v-if="overallSchvsAccDataFiltered.length && overallSchvsAccDataFiltered[0].series"
+                :chartData="overallSchvsAccDataFiltered[0].series"
+                :categories="overallSchvsAccDataFiltered[0].categories"
+                title=""
+                />
+
+                <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                    </div>
+                
 
                 
 
@@ -110,30 +122,30 @@
                 
             </div>
 
-              <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+              <div v-if="cmOverallDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: cmOverallData.completion_rate,
+                        count: cmOverallDataFiltered[0].completion_rate,
                         title: 'CM Completion Rate',
-                        data: cmOverallData.per
+                        data: cmOverallDataFiltered[0].accomplished
                     }"
                     />   
 
 
                 <CountCard 
                     :countCardData="{
-                        count: cmOverallData.totals.scheduled,
+                        count: cmOverallDataFiltered[0].totals.scheduled,
                         title: 'CM Scheduled Total',
-                        data: cmOverallData.scheduled
+                        data: cmOverallDataFiltered[0].scheduled
                     }"
                     />
 
                 <CountCard 
                     :countCardData="{
-                        count: cmOverallData.totals.accomplished,
+                        count: cmOverallDataFiltered[0].totals.accomplished,
                         title: 'CM Accomplished Total',
-                        data: cmOverallData.accomplished
+                        data: cmOverallDataFiltered[0].accomplished
                     }"
                     />    
 
@@ -142,12 +154,16 @@
 
 
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="cmOverallDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <ParetoVerticalBarChart :chartData="cmOverallData"  />
+                    <ParetoVerticalBarChart :chartData="cmOverallDataFiltered"  />
                 </div>
                 
             </div>
+             <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
+
         </div>
 
 
@@ -161,29 +177,29 @@
                 
             </div>
 
-             <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+             <div v-if="wrOverallDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: wrOverallData.completion_rate,
+                        count: wrOverallDataFiltered[0].completion_rate,
                         title: 'WR Completion Rate',
-                        data: wrOverallData.per
+                        data: wrOverallDataFiltered[0].accomplished
                     }"
                     />   
 
                 <CountCard 
                     :countCardData="{
-                        count: wrOverallData.total.scheduled,
+                        count: wrOverallDataFiltered[0].total.scheduled,
                         title: 'WR Scheduled Total',
-                        data: cmOverallData.scheduled
+                        data: wrOverallDataFiltered[0].scheduled
                     }"
                     />
 
                 <CountCard 
                     :countCardData="{
-                        count: wrOverallData.total.accomplished,
+                        count: wrOverallDataFiltered[0].total.accomplished,
                         title: 'WR Accomplished Total',
-                        data: cmOverallData.accomplished
+                        data: wrOverallDataFiltered[0].accomplished
                     }"
                     />    
 
@@ -191,12 +207,15 @@
 
 
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="wrOverallDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <TornadoChart :chartData="wrOverallData"  />
+                    <TornadoChart :chartData="wrOverallDataFiltered"  />
                 </div>
                 
             </div>
+             <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
         </div>
 
 
@@ -230,10 +249,10 @@
 
             <div class="flex gap-5 justify-center">
                 <div v-if="activeFeedbackType=='Service'" class="flex flex-col gap-4 bg-[#f5f8ff] w-full">
-                    <BarChart :chartData="serviceFeedbackData" />
+                    <BarChart :chartData="serviceFeedbackDataFiltered" />
                 </div>
                 <div v-if="activeFeedbackType=='Quality'" class="flex flex-col gap-4 bg-[#f5f8ff] w-full">
-                    <BarChart :chartData="qualityFeedBackData" />
+                    <BarChart :chartData="qualityFeedBackDataFiltered" />
                 </div>
             </div>
         </div>
@@ -252,8 +271,11 @@
                 </div>
             </div>
             <!-- Testimonials Card -->
-            <div class="masonry ml-14">
-                <TestimonialsCard v-for="(data, index) in testimonialsData" :key="index" :testimonialsCardData="data" />
+            <div v-if="testimonialsDataFiltered.length" class="masonry ml-14">
+                <TestimonialsCard v-for="(data, index) in testimonialsDataFiltered" :key="index" :testimonialsCardData="data" />
+            </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+            No data available for selected filters.
             </div>
         </div>
 
@@ -266,7 +288,7 @@
             </h1>
 
             <div class="flex justify-center mt-5">
-              <DonutChart :chartData="mealsData" />
+              <DonutChart :chartData="mealsDataFiltered" />
             </div>
           </div>
 
@@ -291,7 +313,8 @@
 
                 <div class="flex  justify-start gap-3 ">
 
-                 <p class="text-3xl font-medium ">{{laundryData[0].data}}</p>   
+                 <p v-if="laundryDataFiltered.length && laundryDataFiltered[0].data > 0" class="text-3xl font-medium ">{{laundryDataFiltered[0].data}}</p>   
+                 <p v-else class="text-3xl font-medium ">0</p>   
                 
                 <div class="bg-gradient-to-l from-[#fba800] to-[#232f3e] shadow ">
                     <p class="text-3xl font-medium text-white">Trips</p>
@@ -354,13 +377,15 @@
                  
             </div>
 
-             <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+             <div v-if="roomOccupancyDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
+                v-if="roomOccupancyDataFiltered.length"
                 :countCardData="{
                 count: overallOccupancy,
                 title: 'Overall Occupancy',
-                data: roomOccupancyTypeData.map(item => item.occupancy)
+                data: this.roomOccupancyDataFiltered[0].occupancyPercent.map(item => item)
+                
                 }"
             />
    
@@ -372,7 +397,13 @@
 
             <div class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <LineColumnChart :chartData="roomOccupancyData"  />
+                    <LineColumnChart
+                        v-if="roomOccupancyDataFiltered.length"
+                        :chartData="roomOccupancyDataFiltered[0]"
+                        />
+                        <div v-else class="text-center mt-5 text-gray-500">
+                        No data available for selected filters.
+                        </div>
                 </div>
                 
             </div>
@@ -389,16 +420,17 @@
             </div>
 
 
-            <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+            <div v-if="roomOccupancyTypeDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                
                 
                
                 <CountCard 
+                v-if="roomOccupancyTypeDataFiltered.length"
                 :countCardData="{
-                count: overallOccupancy,
+                count: overallOccupancytypewise,
                 title: 'Overall Occupancy',
-                data: roomOccupancyTypeData.map(item => item.occupancy)
+                data: roomOccupancyTypeDataFiltered.map(item => item.occupancy)
                 }"
             />
 
@@ -409,7 +441,10 @@
 
             <div class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <StackedAreaMixed :chartData="roomOccupancyTypeData"  />
+                    <StackedAreaMixed v-if="roomOccupancyTypeDataFiltered.length" :chartData="roomOccupancyTypeDataFiltered"  />
+                    <div v-else class="text-center mt-5 text-gray-500">
+                        No data available for selected filters.
+                        </div>
                 </div>
                 
             </div>
@@ -497,7 +532,53 @@
             filterStore.applyFilters(cateringLaundryData)
             );
 
-            return { cateringFiltered };
+            const laundryDataFiltered = computed(()=>
+                filterStore.applyFilters(laundryData)
+            )
+
+            const mealsDataFiltered = computed(()=>
+                filterStore.applyFilters(mealsData)
+            )
+
+            const serviceFeedbackDataFiltered = computed(()=>
+                filterStore.applyFilters(serviceFeedbackData)
+            )
+
+            const qualityFeedBackDataFiltered = computed(()=>
+                filterStore.applyFilters(qualityFeedBackData)
+            )
+
+            const testimonialsDataFiltered = computed(()=>
+                filterStore.applyFilters(testimonialsData)
+            )
+
+            const roomOccupancyDataFiltered = computed(()=>
+                filterStore.applyFilters(roomOccupancyData)
+            )
+
+            const roomOccupancyTypeDataFiltered = computed(()=>
+                filterStore.applyFilters(roomOccupancyTypeData)
+            )
+
+            const OverallMonthAllFiltered = computed(()=>
+                filterStore.applyFilters(OverallMonthAll)
+            )
+
+            const overallSchvsAccDataFiltered = computed(()=>
+                filterStore.applyFilters(overallSchvsAccData)
+            )
+
+            const cmOverallDataFiltered = computed(()=>
+                filterStore.applyFilters(cmOverallData)
+            )
+
+            const wrOverallDataFiltered = computed(()=>
+                filterStore.applyFilters(wrOverallData)
+            )
+
+          
+
+            return { cateringFiltered,laundryDataFiltered,mealsDataFiltered,serviceFeedbackDataFiltered,qualityFeedBackDataFiltered,testimonialsDataFiltered,roomOccupancyDataFiltered,roomOccupancyTypeDataFiltered,OverallMonthAllFiltered,overallSchvsAccDataFiltered,cmOverallDataFiltered,wrOverallDataFiltered  };
         },
         data() {
             return {
@@ -558,11 +639,75 @@
             FlowChart
         },
         computed: {
+//   overallOccupancy() {
+//     // const totalOccupied = this.roomOccupancyTypeData.reduce((sum, item) => sum + item.occupied, 0);
+//     const totalOccupied = this.roomOccupancyDataFiltered[0].reduce((sum, item) => sum + item.occupied, 0);
+//     // const totalRooms = this.roomOccupancyTypeData.reduce((sum, item) => sum + item.total, 0);
+//     const totalRooms = this.roomOccupancyDataFiltered[0].reduce((sum, item) => sum + item.total, 0);
+//     return ((totalOccupied / totalRooms) * 100).toFixed(0) + ' %';
+//   }
+
+
   overallOccupancy() {
-    const totalOccupied = this.roomOccupancyTypeData.reduce((sum, item) => sum + item.occupied, 0);
-    const totalRooms = this.roomOccupancyTypeData.reduce((sum, item) => sum + item.total, 0);
+    console.log(this.roomOccupancyDataFiltered);  
+    
+    if (!this.roomOccupancyDataFiltered.length || !this.roomOccupancyDataFiltered[0]) {
+      return '0';
+    }
+
+    const data = this.roomOccupancyDataFiltered[0]; 
+
+    
+    if (!data.occupiedRooms || !data.totalRooms) {
+      return '0';
+    }
+
+    
+    const totalOccupied = data.occupiedRooms.reduce((sum, item) => sum + item, 0); 
+    const totalRooms = data.totalRooms.reduce((sum, item) => sum + item, 0); 
+
+    
+    if (totalRooms === 0) {
+      return '0';
+    }
+
+    console.log(((totalOccupied / totalRooms) * 100).toFixed(0) + ' %')
     return ((totalOccupied / totalRooms) * 100).toFixed(0) + ' %';
-  }
+  
+},
+
+overallOccupancytypewise() {
+    console.log(this.roomOccupancyTypeDataFiltered);
+
+    
+    if (!this.roomOccupancyTypeDataFiltered.length || !this.roomOccupancyTypeDataFiltered) {
+      return '0';
+    }
+
+    const data = this.roomOccupancyTypeDataFiltered;
+
+    let totalOccupied = 0;
+    let totalRooms = 0;
+
+    
+    data.forEach(obj => {
+        totalOccupied += obj.occupied;
+        totalRooms += obj.total; 
+    });
+
+    
+    if (totalRooms === 0) {
+      return '0';
+    }
+
+    
+    const occupancyPercentage = ((totalOccupied / totalRooms) * 100).toFixed(0) + ' %';
+
+    console.log(occupancyPercentage); 
+    return occupancyPercentage;
+}
+
+
 }
     };
 </script>

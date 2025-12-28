@@ -37,21 +37,21 @@
             </div>
 
 
-             <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+             <div v-if="gasolineConsumptionFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: gasolineConsumption.totals.gasoline91,
+                        count: gasolineConsumptionFiltered[0].totals.gasoline91,
                         title: 'GASOLINE 91 Total',
-                        data: gasolineConsumption.series[0].data
+                        data: gasolineConsumptionFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: gasolineConsumption.totals.diesel,
+                    count: gasolineConsumptionFiltered[0].totals.diesel,
                     title: 'Diesel Total',
-                    data: gasolineConsumption.series[1].data
+                    data: gasolineConsumptionFiltered[0].series[1].data
                 }"
                 />    
 
@@ -59,12 +59,15 @@
 
 
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="gasolineConsumptionFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <StackedAreaChart :chartData="gasolineConsumption" title="" />
+                    <StackedAreaChart :chartData="gasolineConsumptionFiltered"  />
                 </div>
                 
             </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
         </div>
 
   </div>
@@ -85,21 +88,21 @@
                 
             </div>
 
-            <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+            <div v-if="waterConsumptionFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: waterConsumption.totals.raw,
+                        count: waterConsumptionFiltered[0].totals.raw,
                         title: 'RAW Water Total',
-                        data: waterConsumption.series[0].data
+                        data: waterConsumptionFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: waterConsumption.totals.sweet,
+                    count: waterConsumptionFiltered[0].totals.sweet,
                     title: 'Sweet Water Total',
-                    data: waterConsumption.series[1].data
+                    data: waterConsumptionFiltered[0].series[1].data
                 }"
                 />    
 
@@ -107,10 +110,12 @@
 
 
             <div class="flex gap-5 justify-center">
-                <div  class="flex flex-col gap-4 w-full">
-                    <DashedLineChart :chartData="waterConsumption" title="" />
+                <div v-if="waterConsumptionFiltered.length"  class="flex flex-col gap-4 w-full">
+                    <DashedLineChart :chartData="waterConsumptionFiltered"  />
                 </div>
-                
+                <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
             </div>
         </div>
 
@@ -125,38 +130,43 @@
 
     <!-- Garbage Collection -->
 
-         <div>
+         
             <div>
-                <h1 class="text-3xl font-semibold text-center mb-3 mt-5 pt-5">Garbage Collection - <span class="bg-gradient-to-t from-[#fd2b94] via-[#fba800] to-[#fd2b94] bg-clip-text text-transparent">Daywise</span></h1>
-                
-                
-                
+                <h1 class="text-3xl font-semibold text-center mb-3 mt-5 pt-5">Garbage Collection - <span class="bg-gradient-to-t from-[#fd2b94] via-[#fba800] to-[#fd2b94] bg-clip-text text-transparent">Daywise</span></h1> 
             </div>
 
+            
+             <div v-if="garbageCollectionDataFiltered.length > 0"  class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10"> 
 
-             <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
-
-                <CountCard 
-                    :countCardData="{
-                        count: garbageCollectionData.totals,
-                        title: 'Garbage Collection Total',
-                        data: garbageCollectionData.capacities
-                    }"
-                    />
+                <CountCard
+                :countCardData="{
+                    count: garbageCollectionDataFiltered[0].totals,
+                    title: 'Garbage Collection Total',
+                    data: garbageCollectionDataFiltered[0].capacities
+                }"
+                />
   
 
+             </div>
+
+
+
+
+            <div v-if="garbageCollectionDataFiltered.length > 0" class="flex gap-5 justify-center">
+            <div class="flex flex-col gap-4 w-full">
+                <LineTimeSeriesChart :chartData="garbageCollectionDataFiltered" />
+            </div>
+            </div>
+
+            <div v-else class="text-center mt-5 text-gray-500">
+            No data available for selected filters.
             </div>
 
 
 
+           
+            
 
-            <div class="flex gap-5 justify-center">
-                <div  class="flex flex-col gap-4  w-full">
-                    <LineTimeSeriesChart :chartData="garbageCollectionData" title="" />
-                </div>
-                
-            </div>
-        </div>
 
 
 
@@ -173,25 +183,29 @@
             </div>
 
 
-             <div class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+             <div v-if="sewageWaterDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: sewageWaterData.totals,
+                        count: sewageWaterDataFiltered[0].totals,
                         title: 'Sewage Water Total (In Ltrs)',
-                        data: sewageWaterData.capacities
+                        data: sewageWaterDataFiltered[0].capacities
                     }"
                     />
   
 
             </div>
 
-            <div class="flex gap-5 justify-center">
+            <div v-if="sewageWaterDataFiltered.length" class="flex gap-5 justify-center">
                 <div  class="flex flex-col gap-4  w-full">
-                    <StepLineChart :chartData="sewageWaterData" title="" />
+                    <StepLineChart :chartData="sewageWaterDataFiltered"  />
                 </div>
                 
             </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+            No data available for selected filters.
+            </div>
+            
         </div>
 
 
@@ -206,6 +220,8 @@
 
 <script>
 import ApexCharts from 'apexcharts';
+ import { computed } from 'vue';
+  import { useFilterStore } from '@/stores/filterStore';
 
 
 import StepLineChart from '@/components/chart/StepLineChart.vue';
@@ -222,6 +238,33 @@ import gasolineConsumption from '@/data/maintenance/gasoline_consumption.js';
  import waterConsumption from '@/data/maintenance/water_consumption.js';
 
 export default {
+
+     setup(){
+
+    const filterStore = useFilterStore();
+
+     const gasolineConsumptionFiltered = computed(() =>
+            filterStore.applyFilters(gasolineConsumption)
+            );
+
+     const waterConsumptionFiltered = computed(() =>
+            filterStore.applyFilters(waterConsumption)
+            );
+
+     const garbageCollectionDataFiltered = computed(() =>
+            filterStore.applyFilters(garbageCollectionData)
+            );
+
+     const sewageWaterDataFiltered = computed(() =>
+            filterStore.applyFilters(sewageWaterData)
+            );
+        
+
+         return {gasolineConsumptionFiltered, waterConsumptionFiltered, garbageCollectionDataFiltered, sewageWaterDataFiltered}    
+        
+        },
+
+
   data() {
     return {
       activeTab: 'Energy',

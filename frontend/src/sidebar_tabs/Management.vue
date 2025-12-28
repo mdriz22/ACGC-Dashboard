@@ -47,29 +47,34 @@
 
        <div class=" bg-white ml-[10px] pb-[20px] w-full  flex gap-10 flex-wrap">
 
+               <div v-if="overallSchvsAccDataFiltered.length" class="bg-white ml-[10px] pb-[20px] w-full flex gap-10 flex-wrap">
                 <CountCard 
                     :countCardData="{
-                        count: overallSchvsAccData.completion_rate,
+                        count: overallSchvsAccDataFiltered[0].completion_rate,
                         title: 'PM Completion Rate',
-                        data: overallSchvsAccData.per
+                        data: overallSchvsAccDataFiltered[0].series[1].data
                     }"
                     /> 
 
                 <CountCard 
                     :countCardData="{
-                        count: overallSchvsAccData.totals.Planned,
+                        count: overallSchvsAccDataFiltered[0].totals.Planned,
                         title: 'PM Planned Total',
-                        data: overallSchvsAccData.per
+                        data: overallSchvsAccDataFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
                     :countCardData="{
-                        count: overallSchvsAccData.totals.Completed,
+                        count: overallSchvsAccDataFiltered[0].totals.Completed,
                         title: 'PM Completed Total',
-                        data: overallSchvsAccData.per
+                        data: overallSchvsAccDataFiltered[0].per
                     }"
-                    /> 
+                    />
+                </div> 
+                <!-- <div v-else class="text-center mt-5 text-gray-500">
+                    No data available in Overall PM/CM/WR for selected filters.
+                </div>     -->
 
                 <!-- <CountCard 
                     :countCardData="{
@@ -79,74 +84,102 @@
                     }"
                     />    -->
 
-
+                <div v-if="cmOverallDataFiltered.length" class="bg-white ml-[10px] pb-[20px] w-full flex gap-10 flex-wrap">
                     <CountCard 
                     :countCardData="{
-                        count: cmOverallData.completion_rate,
+                        count: cmOverallDataFiltered[0].completion_rate,
                         title: 'CM Completion Rate',
-                        data: cmOverallData.per
+                        data:  cmOverallDataFiltered[0].accomplished
                     }"
                     /> 
 
                 <CountCard 
                     :countCardData="{
-                        count: cmOverallData.totals.scheduled,
+                        count: cmOverallDataFiltered[0].totals.scheduled,
                         title: 'CM Scheduled Total',
-                        data: cmOverallData.scheduled
+                        data: cmOverallDataFiltered[0].scheduled
                     }"
                     />
 
                 <CountCard 
                     :countCardData="{
-                        count: cmOverallData.totals.accomplished,
+                        count: cmOverallDataFiltered[0].totals.accomplished,
                         title: 'CM Accomplished Total',
-                        data: cmOverallData.accomplished
+                        data: cmOverallDataFiltered[0].accomplished
                     }"
                     />
+
+                </div>  
+
+                <!-- <div v-else class="text-center mt-5 text-gray-500">
+                    No data available in CM for selected filters.
+                </div>  -->
+                
+                <div v-if="wrOverallDataFiltered.length" class="bg-white ml-[10px] pb-[20px] w-full flex gap-10 flex-wrap">
 
                     <CountCard 
                     :countCardData="{
-                        count: wrOverallData.completion_rate,
+                        count: wrOverallDataFiltered[0].completion_rate,
                         title: 'WR Completion Rate',
-                        data: cmOverallData.per
+                        data: wrOverallDataFiltered[0].accomplished
                     }"
                     /> 
 
                 <CountCard 
                     :countCardData="{
-                        count: wrOverallData.total.scheduled,
+                        count: wrOverallDataFiltered[0].total.scheduled,
                         title: 'WR Scheduled Total',
-                        data: cmOverallData.scheduled
+                        data: wrOverallDataFiltered[0].scheduled
                     }"
                     />
 
                 <CountCard 
                     :countCardData="{
-                        count: wrOverallData.total.accomplished,
+                        count: wrOverallDataFiltered[0].total.accomplished,
                         title: 'WR Accomplished Total',
-                        data: cmOverallData.accomplished
+                        data: wrOverallDataFiltered[0].accomplished
                     }"
                     />
 
+                </div>
+<!-- 
+                 <div v-else class="text-center mt-5 text-gray-500">
+                    No data available in WR for selected filters.
+                </div>  -->
 
+                <div class="bg-white ml-[10px] pb-[20px] w-full flex gap-10 flex-wrap">
+
+                <div v-if="roomOccupancyDataFiltered.length" >
                 <CountCard 
                 :countCardData="{
                 count: overallOccupancy,
                 title: 'Room Occupancy - Building wise',
-                data: roomOccupancyTypeData.map(item => item.occupancy)
+                data: this.roomOccupancyDataFiltered[0].occupancyPercent.map(item => item)
                 }"
-            />  
+            />
+            
+            </div>
+
+            <!-- <div v-else class="text-center mt-5 text-gray-500">
+                    No data available in Room Occupancy - Building wise for selected filters.
+                </div>  -->
+
+            <div v-if="roomOccupancyTypeDataFiltered.length" >
                
                 <CountCard 
                 :countCardData="{
-                count: overallOccupancy,
+                count: overallOccupancytypewise,
                 title: 'Room Occupancy - Building Type wise',
-                data: roomOccupancyTypeData.map(item => item.occupancy)
+                data:  roomOccupancyTypeDataFiltered.map(item => item.occupancy)
                 }"
             />     
 
+        </div>
 
-
+        <!-- <div v-else class="text-center mt-5 text-gray-500">
+                    No data available in Room Occupancy - Building Type wise for selected filters.
+        </div>  -->
+        </div>
 
 
             </div>
@@ -161,21 +194,28 @@
 
       <div class="ml-[10px] pb-[20px] w-full  flex gap-10">
 
+        <div v-if="manpowerDetailsDataFiltered.length" class="bg-white ml-[10px] pb-[20px] w-full flex gap-10 flex-wrap">
+
                 <CountCard 
                     :countCardData="{
-                        count: manpowerDetailsData.totals.indicative,
+                        count: manpowerDetailsDataFiltered[0].totals.indicative,
                         title: 'ManPower Indicative Total',
-                        data: manpowerDetailsData.series[0].data
+                        data: manpowerDetailsDataFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: manpowerDetailsData.totals.actual,
+                    count:  manpowerDetailsDataFiltered[0].totals.actual,
                     title: 'ManPower Actual Total',
-                    data: manpowerDetailsData.series[1].data
+                    data: manpowerDetailsDataFiltered[0].series[1].data
                 }"
-                />    
+                /> 
+                
+        </div>
+        <!-- <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+        </div>     -->
 
             </div>
             
@@ -186,33 +226,37 @@
    <!-- Safety  -->
   <div v-if="activeTab==='safety'" class="bg-white pt-5  w-full">
 
-     <div class="ml-[10px] pb-[20px] w-full  flex gap-10">
+     <div v-if="safetyEnvironmentDataFiltered.length" class="ml-[10px] pb-[20px] w-full  flex gap-10">
 
                 <CountCard 
                     :countCardData="{
-                        count: safetyEnvironmentData.totals.applicable,
+                        count: safetyEnvironmentDataFiltered[0].totals.applicable,
                         title: 'Applicable',
-                        data: safetyEnvironmentData.applicable
+                        data: safetyEnvironmentDataFiltered[0].applicable
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: safetyEnvironmentData.totals.actual,
+                    count: safetyEnvironmentDataFiltered[0].totals.actual,
                     title: 'Actual',
-                    data: safetyEnvironmentData.actual
+                    data: safetyEnvironmentDataFiltered[0].actual
                 }"
                 /> 
 
                 <CountCard 
                 :countCardData="{
-                    count: safetyEnvironmentData.totals.percentage,
+                    count: safetyEnvironmentDataFiltered[0].totals.percentage,
                     title: 'Overall Percentage',
-                    data: safetyEnvironmentData.percentage
+                    data: safetyEnvironmentDataFiltered[0].percentage
                 }"
                 />    
 
             </div>
+
+      <!-- <div v-else class="text-center mt-5 text-gray-500">
+                    No data available in Safety Environment Data for selected filters.
+        </div>        -->
 
 
   </div>
@@ -220,55 +264,84 @@
   <!-- Operations -->
    <div v-if="activeTab==='Operations'" class="bg-white pt-5  w-full">
 
-    <div class="ml-[10px] pb-[20px] w-full  flex flex-wrap gap-10">
+    <div class="ml-[10px] pb-[20px] w-full  flex flex-wrap gap-10 ">
 
+              <div v-if="gasolineConsumptionFiltered.length" class="bg-white    flex gap-5 ">
                 <CountCard 
                     :countCardData="{
-                        count: gasolineConsumption.totals.gasoline91,
+                        count: gasolineConsumptionFiltered[0].totals.gasoline91,
                         title: 'GASOLINE 91 Total',
-                        data: gasolineConsumption.series[0].data
+                        data: gasolineConsumptionFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
                 :countCardData="{
-                    count: gasolineConsumption.totals.diesel,
+                    count: gasolineConsumptionFiltered[0].totals.diesel,
                     title: 'Diesel Total',
-                    data: gasolineConsumption.series[1].data
+                    data: gasolineConsumptionFiltered[0].series[1].data
                 }"
-                />    
+                />  
+              </div>
 
+               <!-- <div v-else class="text-center mt-5 text-gray-500">
+            No data available in Gasoline Consumption for selected filters.
+            </div> -->
+
+             <!-- <div v-if="waterConsumptionFiltered.length" class="bg-white   flex gap-5 "> -->
                 <CountCard 
+                 v-if="waterConsumptionFiltered.length"
                     :countCardData="{
-                        count: waterConsumption.totals.raw,
+                        count: waterConsumptionFiltered[0].totals.raw,
                         title: 'RAW Water Total',
-                        data: waterConsumption.series[0].data
+                        data: waterConsumptionFiltered[0].series[0].data
                     }"
                     />
 
                 <CountCard 
+                v-if="waterConsumptionFiltered.length"
                 :countCardData="{
-                    count: waterConsumption.totals.sweet,
+                    count: waterConsumptionFiltered[0].totals.sweet,
                     title: 'Sweet Water Total',
-                    data: waterConsumption.series[1].data
+                    data: waterConsumptionFiltered[0].series[1].data
                 }"
-                />   
+                /> 
+                
+                <!-- </div> -->
+
+                 <!-- <div v-else class="text-center mt-5 text-gray-500">
+            No data available in Water Consumption for selected filters.
+            </div> -->
+
+                <div v-if="garbageCollectionDataFiltered.length" >
 
                   <CountCard 
                     :countCardData="{
-                        count: garbageCollectionData.totals,
+                        count: garbageCollectionDataFiltered[0].totals,
                         title: 'Garbage Collection Total',
-                        data: garbageCollectionData.capacities
+                        data: garbageCollectionDataFiltered[0].capacities
                     }"
                     />
 
+                </div>
+
+                 <!-- <div v-else class="text-center mt-5 text-gray-500">
+            No data available in Garbage Collection for selected filters.
+            </div> -->
+                
+                <div v-if="sewageWaterDataFiltered.length" >
                      <CountCard 
                     :countCardData="{
-                        count: sewageWaterData.totals,
+                        count: sewageWaterDataFiltered[0].totals,
                         title: 'Sewage Water Total (In Ltrs)',
-                        data: sewageWaterData.capacities
+                        data: sewageWaterDataFiltered[0].capacities
                     }"
                     />
+                </div>  
+                
+                 <!-- <div v-else class="text-center mt-5 text-gray-500">
+            No data available in Sewage Water Data for selected filters.
+            </div> -->
 
             </div>
 
@@ -311,6 +384,12 @@
 </template>
 
 <script>
+
+     import { computed } from 'vue';
+  import { useFilterStore } from '@/stores/filterStore';
+
+
+
 import PercentageCard from '@/components/PercentageCard.vue';
 import MultiSeriesChart from '@/components/chart/MultiSeriesChart.vue';
 import CountCard from '@/components/CountCard.vue';
@@ -337,11 +416,117 @@ export default {
   components: { PercentageCard, MultiSeriesChart, CountCard,FlowChart },
          computed: {
   overallOccupancy() {
-    const totalOccupied = this.roomOccupancyTypeData.reduce((sum, item) => sum + item.occupied, 0);
-    const totalRooms = this.roomOccupancyTypeData.reduce((sum, item) => sum + item.total, 0);
+    console.log(this.roomOccupancyDataFiltered);  
+    
+    if (!this.roomOccupancyDataFiltered.length || !this.roomOccupancyDataFiltered[0]) {
+      return '0';
+    }
+
+    const data = this.roomOccupancyDataFiltered[0]; 
+
+    
+    if (!data.occupiedRooms || !data.totalRooms) {
+      return '0';
+    }
+
+    
+    const totalOccupied = data.occupiedRooms.reduce((sum, item) => sum + item, 0); 
+    const totalRooms = data.totalRooms.reduce((sum, item) => sum + item, 0); 
+
+    
+    if (totalRooms === 0) {
+      return '0';
+    }
+
+    console.log(((totalOccupied / totalRooms) * 100).toFixed(0) + ' %')
     return ((totalOccupied / totalRooms) * 100).toFixed(0) + ' %';
-  }
+  
 },
+
+overallOccupancytypewise() {
+    console.log(this.roomOccupancyTypeDataFiltered);
+
+    
+    if (!this.roomOccupancyTypeDataFiltered.length || !this.roomOccupancyTypeDataFiltered) {
+      return '0';
+    }
+
+    const data = this.roomOccupancyTypeDataFiltered;
+
+    let totalOccupied = 0;
+    let totalRooms = 0;
+
+    
+    data.forEach(obj => {
+        totalOccupied += obj.occupied;
+        totalRooms += obj.total; 
+    });
+
+    
+    if (totalRooms === 0) {
+      return '0';
+    }
+
+    
+    const occupancyPercentage = ((totalOccupied / totalRooms) * 100).toFixed(0) + ' %';
+
+    console.log(occupancyPercentage); 
+    return occupancyPercentage;
+}
+
+},
+
+ setup(){
+
+    const filterStore = useFilterStore();
+
+      const overallSchvsAccDataFiltered = computed(()=>
+                filterStore.applyFilters(overallSchvsAccData)
+            )
+
+       const cmOverallDataFiltered = computed(()=>
+                filterStore.applyFilters(cmOverallData)
+            )
+
+            const wrOverallDataFiltered = computed(()=>
+                filterStore.applyFilters(wrOverallData)
+            )
+
+             const roomOccupancyDataFiltered = computed(()=>
+                filterStore.applyFilters(roomOccupancyData)
+            )
+
+            const roomOccupancyTypeDataFiltered = computed(()=>
+                filterStore.applyFilters(roomOccupancyTypeData)
+            )
+
+            const manpowerDetailsDataFiltered = computed(() =>
+            filterStore.applyFilters(manpowerDetailsData)
+            );
+
+            const safetyEnvironmentDataFiltered = computed(() =>
+            filterStore.applyFilters(safetyEnvironmentData)
+            );
+
+             const gasolineConsumptionFiltered = computed(() =>
+            filterStore.applyFilters(gasolineConsumption)
+            );
+
+            const waterConsumptionFiltered = computed(() =>
+                    filterStore.applyFilters(waterConsumption)
+                    );
+
+            const garbageCollectionDataFiltered = computed(() =>
+                    filterStore.applyFilters(garbageCollectionData)
+                    );
+
+            const sewageWaterDataFiltered = computed(() =>
+                    filterStore.applyFilters(sewageWaterData)
+                    );
+      
+
+         return {overallSchvsAccDataFiltered, cmOverallDataFiltered, wrOverallDataFiltered, roomOccupancyDataFiltered, roomOccupancyTypeDataFiltered,manpowerDetailsDataFiltered , safetyEnvironmentDataFiltered, gasolineConsumptionFiltered, waterConsumptionFiltered, garbageCollectionDataFiltered, sewageWaterDataFiltered    }    
+ },
   data() {
     return {
       activeTab: 'Organisation Chart',
