@@ -9,6 +9,14 @@
 
     <p>|</p>
 
+    <button @click="activeTab= 'Total Activities Done'" class="font-semibold w-full text-sm text-center h-8 pt-0.5 px-2"
+      :class="{'border-b-2 border-b-[#fba800] bg-[#fefdec]': activeTab === 'Total Activities Done' }">
+      Total Activities Done
+    </button>
+
+
+    <p>|</p>
+
     <button @click="activeTab='Maintenance'" class="font-semibold w-full text-sm text-center h-8 pt-0.5 px-2"
       :class="{'border-b-2 border-b-[#fba800] bg-[#fefdec]': activeTab === 'Maintenance' }">
       Maintenance
@@ -187,6 +195,34 @@
       
       
     </div>
+
+    <!-- Total Activities Done -->
+
+     <div v-if="activeTab==='Total Activities Done'" class="bg-white pt-5  w-full">
+
+     
+
+        <div>
+            <div>
+                <h1 class="text-3xl font-semibold text-center mb-8 mt-5 pt-5">Total Activities Done</h1>
+            </div>
+
+
+            <div v-if="TotalActivitiesDataFiltered.length" >
+                  
+               <TotalWorkChart   :chartData="TotalActivitiesDataFiltered"/>
+                  
+            </div>
+
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
+
+        </div>
+
+  </div>
+
+
   
     <!-- HR -->
 
@@ -365,10 +401,20 @@
                     <FlowChart :chartData="OrganisationChartData"  />
                 </div> -->
                  
-               <div class="p-5">
-                    <img src="../assets/icons/Artboard 18-100.jpg"  />
+               <div v-if="orgUrlDataFiltered.length" class="p-5">
+                    
+
+                    <img
+                        v-if="orgUrlDataFiltered.length"
+                        :src="orgUrlDataFiltered[0].url"
+                        />
+
+                    
 
                </div> 
+                <div v-else class="text-center mt-5 text-gray-500">
+            No data available for selected filters.
+            </div>
                
                 
             </div>
@@ -387,6 +433,7 @@
 
      import { computed } from 'vue';
   import { useFilterStore } from '@/stores/filterStore';
+  import { useFilterOrgChartStore } from '@/stores/filterOrgChartStore';
 
 
 
@@ -394,6 +441,7 @@ import PercentageCard from '@/components/PercentageCard.vue';
 import MultiSeriesChart from '@/components/chart/MultiSeriesChart.vue';
 import CountCard from '@/components/CountCard.vue';
 import FlowChart from '@/components/chart/FlowChart.vue';
+import TotalWorkChart from '@/components/chart/TotalWorkChart.vue';
 
 
 import overallData from '@/data/management/overall.js';
@@ -410,10 +458,13 @@ import garbageCollectionData from '@/data/maintenance/garbage_collection.js';
 import gasolineConsumption from '@/data/maintenance/gasoline_consumption.js';
  import waterConsumption from '@/data/maintenance/water_consumption.js';
  import OrganisationChartData from '@/data/maintenance/organisation_chart.js';
+ import TotalActivitiesData from '@/data/maintenance/total_activities_done';
+ import organisationChartLink from '@/data/maintenance/organisation_chart_links.js';
+
 
 export default {
   name: 'Management',
-  components: { PercentageCard, MultiSeriesChart, CountCard,FlowChart },
+  components: { PercentageCard, MultiSeriesChart, CountCard,FlowChart,TotalWorkChart },
          computed: {
   overallOccupancy() {
     console.log(this.roomOccupancyDataFiltered);  
@@ -479,6 +530,7 @@ overallOccupancytypewise() {
  setup(){
 
     const filterStore = useFilterStore();
+    const filterorgchartStore = useFilterOrgChartStore();  
 
       const overallSchvsAccDataFiltered = computed(()=>
                 filterStore.applyFilters(overallSchvsAccData)
@@ -523,9 +575,18 @@ overallOccupancytypewise() {
             const sewageWaterDataFiltered = computed(() =>
                     filterStore.applyFilters(sewageWaterData)
                     );
+
+            const TotalActivitiesDataFiltered = computed(() =>
+                    filterStore.applyFilters(TotalActivitiesData)
+                    );
+
+            const orgUrlDataFiltered = computed(()=>
+
+            filterorgchartStore.applyFilters(organisationChartLink)
+        )        
       
 
-         return {overallSchvsAccDataFiltered, cmOverallDataFiltered, wrOverallDataFiltered, roomOccupancyDataFiltered, roomOccupancyTypeDataFiltered,manpowerDetailsDataFiltered , safetyEnvironmentDataFiltered, gasolineConsumptionFiltered, waterConsumptionFiltered, garbageCollectionDataFiltered, sewageWaterDataFiltered    }    
+         return {overallSchvsAccDataFiltered, cmOverallDataFiltered, wrOverallDataFiltered, roomOccupancyDataFiltered, roomOccupancyTypeDataFiltered,manpowerDetailsDataFiltered , safetyEnvironmentDataFiltered, gasolineConsumptionFiltered, waterConsumptionFiltered, garbageCollectionDataFiltered, sewageWaterDataFiltered, TotalActivitiesDataFiltered, orgUrlDataFiltered    }    
  },
   data() {
     return {

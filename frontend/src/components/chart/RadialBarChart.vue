@@ -106,7 +106,7 @@ export default {
 
 
 
-   <template>
+  <template>
   <apexchart
     type="radialBar"
     height="350"

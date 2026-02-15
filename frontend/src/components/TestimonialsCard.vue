@@ -45,9 +45,9 @@ export default {
     ratingValue(text) {
       const map = {
         Excellent: 5,
-        VeryGood: 4,
-        Good: 3,
-        Fair: 2,
+        Good: 4,
+        Average: 3,
+        Unsatisfactory: 2,
         Poor: 1
       };
       return map[text] ?? 0;

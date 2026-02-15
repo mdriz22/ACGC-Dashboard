@@ -2,7 +2,7 @@
   <!-- Header Section -->
   <div class="bg-white flex p-5 items-center">
     <div class="flex flex-row">
-     <img src="../assets/icons/ACGC LOGO FULL NAME.png" class="h-10" /><span><h1 class="font-semibold text-2xl ml-[20px] mt-[5px]">Monthly Progress Observation and Analysis - October 2025</h1></span>
+     <img src="../assets/icons/ACGC LOGO FULL NAME.png" class="h-10" /><span><h1 class="font-semibold text-2xl ml-[20px] mt-[5px]">Monthly Progress Observation and Analysis - {{ this.selectedMonth }} {{this.selectedYear}}</h1></span>
     </div>
 
     <!-- Filter Section -->
@@ -168,6 +168,7 @@
 
 <script>
 import { useFilterStore } from '@/stores/filterStore';
+import { useFilterOrgChartStore } from '@/stores/filterOrgChartStore';
 
 export default {
     
@@ -184,7 +185,7 @@ export default {
         { id: "PS06", name: "PS06" },
         { id: "PS03", name: "PS03" },
         { id: "PS01", name: "PS01" },
-        { id: "PSR1", name: "PSR1" },
+        { id: "PRS1", name: "PRS1" },
         { id: "PS05", name: "PS05" },
        
       ],
@@ -212,6 +213,10 @@ export default {
       {id:2024 , name:"2024"},
       {id:2025 , name:"2025"},
       {id:2026 , name:"2026"},
+      {id:2027 , name:"2027"},
+      {id:2028 , name:"2028"},
+      {id:2029 , name:"2029"},
+      {id:2030 , name:"2030"}
 
       ],
 
@@ -233,19 +238,22 @@ export default {
       applyFilter() {
       const filterStore = useFilterStore();  
 
+      const filterorgchartStore = useFilterOrgChartStore();  
+
       filterStore.setFilters({
         year: Number(this.selectedYear),
         month: this.selectedMonth,
         site: this.selectedSite
       });
 
+      filterorgchartStore.setFilters({
+        site:this.selectedSite
+      })
+
+     
+
       this.gridKey++; 
-      console.log("Filters applied:", {
-        year: Number(this.selectedYear),
-        month: this.selectedMonth,
-        site: this.selectedSite,
-        grid:this.gridKey
-      });
+     
     }
 
 

@@ -70,6 +70,49 @@
                 </div>
         </div>
 
+
+    <!-- Electricity Daywise     -->
+
+      <div>
+            <div>
+                <h1 class="text-3xl font-semibold text-center  mb-3 mt-5 pt-5">Electicity Consumption - <span class="bg-gradient-to-t from-[#fd2b94] via-[#fba800] to-[#fd2b94] bg-clip-text text-transparent">Daywise</span></h1>
+               
+                
+                
+                
+            </div>
+
+
+             <div v-if="electricityDataFiltered.length" class="ml-[10px] my-[20px] w-full h-[100px] flex gap-10">
+
+                <CountCard 
+                    :countCardData="{
+                        count: electricityDataFiltered[0].totals.electricity,
+                        title: 'Electicity Usage Total',
+                        data: electricityDataFiltered[0].series[0].data
+                    }"
+                    />
+
+                  
+
+            </div>
+
+
+
+            <div v-if="electricityDataFiltered.length" class="flex gap-5 justify-center">
+                <div  class="flex flex-col gap-4  w-full">
+                   <ElectricityAreaChart
+                                v-if="electricityDataFiltered.length"
+                                :chartData="electricityDataFiltered"
+                                />
+                </div>
+                
+            </div>
+            <div v-else class="text-center mt-5 text-gray-500">
+                    No data available for selected filters.
+                </div>
+        </div>
+
   </div>
 
 
@@ -229,13 +272,15 @@ import LineTimeSeriesChart from '@/components/chart/LineTimeSeriesChart.vue';
 import CountCard from '@/components/CountCard.vue';
 import StackedAreaChart from '@/components/chart/StackedAreaChart.vue';
 import DashedLineChart from '@/components/chart/DashedLineChart.vue';
+import ElectricityAreaChart from '@/components/chart/ElectricityAreaChart.vue'
 
 
 
 import sewageWaterData from '@/data/maintenance/sewage_water_consumption.js';
 import garbageCollectionData from '@/data/maintenance/garbage_collection.js';
 import gasolineConsumption from '@/data/maintenance/gasoline_consumption.js';
- import waterConsumption from '@/data/maintenance/water_consumption.js';
+import waterConsumption from '@/data/maintenance/water_consumption.js';
+import electricityConsumption from '@/data/maintenance/electricity_consumption'; 
 
 export default {
 
@@ -258,9 +303,12 @@ export default {
      const sewageWaterDataFiltered = computed(() =>
             filterStore.applyFilters(sewageWaterData)
             );
-        
+        const electricityDataFiltered = computed(() =>
+        filterStore.applyFilters(electricityConsumption)
+        );
 
-         return {gasolineConsumptionFiltered, waterConsumptionFiltered, garbageCollectionDataFiltered, sewageWaterDataFiltered}    
+
+         return {gasolineConsumptionFiltered, waterConsumptionFiltered, garbageCollectionDataFiltered, sewageWaterDataFiltered, electricityDataFiltered}    
         
         },
 
@@ -271,7 +319,8 @@ export default {
       sewageWaterData,
       garbageCollectionData,
       gasolineConsumption,
-      waterConsumption
+      waterConsumption,
+      electricityConsumption
     }
 
   },
@@ -281,7 +330,8 @@ export default {
     LineTimeSeriesChart,
     CountCard,
     StackedAreaChart,
-    DashedLineChart
+    DashedLineChart,
+    ElectricityAreaChart
 
 
    }

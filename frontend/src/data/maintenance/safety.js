@@ -29,4 +29,129 @@ export default [
 },
  //PS06 no data
  //PS03 no data
+ //PS01 no data
+ //PRS1 no data
+
+  {
+
+    
+     meta: {
+    year: 2025,
+    month: "November",
+    site: 'PS05'
+  }, 
+
+    records:[{
+  series: [ 0,  0,  0, 0,  0,  0,  1,  1,  0,  0 ],
+
+  labels: [
+    "Fatal",
+    "Permanent Total Disabilities",
+    "Permanent Partial Disabilities",
+    "Lost Workday Cases",
+    "Restricted Workday Cases",
+    "Medical Treatment Cases",
+    "First Aid Cases",
+    "Near Miss",
+    "Lost Workdays",
+    "Restricted Workdays"
+  ]
+  }]
+
+},
+  {
+
+    
+     meta: {
+    year: 2025,
+    month: "December",
+    site: 'PS10'
+  }, 
+
+    records:[{
+  series: [ 0,0,0,0,4,0,1,4,0,0 ],
+
+  labels: [
+    "Fatal",
+    "Permanent Total Disabilities",
+    "Permanent Partial Disabilities",
+    "Lost Workday Cases",
+    "Restricted Workday Cases",
+    "Medical Treatment Cases",
+    "First Aid Cases",
+    "Near Miss",
+    "Lost Workdays",
+    "Restricted Workdays"
+  ]
+  }]
+
+},
+
+//PS03 no data
+//PS06 no data
+//PS01 no data
+//PRS1 no data
+
+{
+
+    
+     meta: {
+    year: 2025,
+    month: "December",
+    site: 'PS05'
+  }, 
+
+    records:[{
+  series: [ 0,0,0,0,0,0,0,2,0,0 ],
+
+  labels: [
+    "Fatal",
+    "Permanent Total Disabilities",
+    "Permanent Partial Disabilities",
+    "Lost Workday Cases",
+    "Restricted Workday Cases",
+    "Medical Treatment Cases",
+    "First Aid Cases",
+    "Near Miss",
+    "Lost Workdays",
+    "Restricted Workdays"
+  ]
+  }]
+
+},
+  {
+
+    
+     meta: {
+    year: 2026,
+    month: "January",
+    site: 'PS10'
+  }, 
+
+    records:[{
+  series: [ 0,0,0,0,4,0,0,1,0,0 ],
+
+  labels: [
+    "Fatal",
+    "Permanent Total Disabilities",
+    "Permanent Partial Disabilities",
+    "Lost Workday Cases",
+    "Restricted Workday Cases",
+    "Medical Treatment Cases",
+    "First Aid Cases",
+    "Near Miss",
+    "Lost Workdays",
+    "Restricted Workdays"
+  ]
+  }]
+
+},
+
+//PS03 no data
+//PS06 no data
+//PS01 no data
+//PRS1 no data
+//PS05 no data
+
+
 ]
